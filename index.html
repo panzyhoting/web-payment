@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment via DANA</title>
+    <style>
+        :root {
+            --primary: #00abe9;
+            --primary-dark: #0088cc;
+            --secondary: #f5f5f5;
+            --text: #333333;
+            --light: #ffffff;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .payment-container {
+            background: var(--light);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 420px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 24px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .payment-header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .payment-header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        .payment-logo {
+            width: 60px;
+            height: 60px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .payment-logo img {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .payment-content {
+            padding: 24px;
+        }
+        
+        .payment-method {
+            margin-bottom: 24px;
+        }
+        
+        .payment-method h2 {
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .payment-method h2 svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .payment-details {
+            background-color: var(--secondary);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .detail-label {
+            font-weight: 500;
+            color: #666;
+        }
+        
+        .detail-value {
+            font-weight: 600;
+        }
+        
+        .dana-number {
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+            color: var(--primary-dark);
+            text-align: center;
+            padding: 12px;
+            background-color: rgba(0, 171, 233, 0.1);
+            border-radius: 8px;
+            margin: 16px 0;
+            font-family: monospace;
+        }
+        
+        .qris-container {
+            text-align: center;
+            margin: 24px 0;
+            padding: 16px;
+            background-color: var(--secondary);
+            border-radius: 12px;
+        }
+        
+        .qris-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .qris-container img:hover {
+            transform: scale(1.02);
+        }
+        
+        .qris-title {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            color: #666;
+        }
+        
+        .instructions {
+            margin-top: 24px;
+            padding: 16px;
+            background-color: rgba(0, 171, 233, 0.05);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .instructions h3 {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            color: var(--primary-dark);
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .copy-btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .copy-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 480px) {
+            .payment-container {
+                border-radius: 12px;
+            }
+            
+            .payment-header {
+                padding: 20px;
+            }
+            
+            .payment-content {
+                padding: 20px;
+            }
+            
+            .dana-number {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <div class="payment-header">
+            <div class="payment-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="40px" height="40px">
+                    <path fill="#00ABE9" d="M24,6C14.059,6,6,14.059,6,24s8.059,18,18,18s18-8.059,18-18S33.941,6,24,6z"/>
+                    <path fill="#FFF" d="M29.992 15A1 1 0 0 0 29 14H19a1 1 0 0 0-1 1v18a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V15zM20 16h8v2h-8v-2zm0 3h8v11h-8V19z"/>
+                </svg>
+            </div>
+            <h1>Payment via DANA</h1>
+            <p>Send payment to the following DANA account</p>
+        </div>
+        
+        <div class="payment-content">
+            <div class="payment-method">
+                <h2>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20px" height="20px">
+                        <path fill="#00ABE9" d="M24,6C14.059,6,6,14.059,6,24s8.059,18,18,18s18-8.059,18-18S33.941,6,24,6z"/>
+                        <path fill="#FFF" d="M29.992 15A1 1 0 0 0 29 14H19a1 1 0 0 0-1 1v18a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V15zM20 16h8v2h-8v-2zm0 3h8v11h-8V19z"/>
+                    </svg>
+                    DANA Payment
+                </h2>
+                
+                <div class="payment-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Payment Method</span>
+                        <span class="detail-value">DANA</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Account Type</span>
+                        <span class="detail-value">Personal</span>
+                    </div>
+                </div>
+                
+                <div class="dana-number" id="danaNumber">088212006566</div>
+                
+                <button class="copy-btn" onclick="copyToClipboard()">Copy Number</button>
+                
+                <div class="qris-container">
+                    <div class="qris-title">Or scan this QRIS code:</div>
+                    <img src="https://files.catbox.moe/q35086.png" alt="QRIS Code for DANA Payment">
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3>Payment Instructions:</h3>
+                <ol>
+                    <li>Open DANA app on your phone</li>
+                    <li>Go to 'Send Money' or 'Transfer' section</li>
+                    <li>Enter the DANA number above or scan the QR code</li>
+                    <li>Input the payment amount</li>
+                    <li>Confirm and complete the transaction</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function copyToClipboard() {
+            const danaNumber = document.getElementById('danaNumber');
+            const text = danaNumber.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = 'Copy Number';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
