@@ -1,1 +1,1 @@
-# web-payment
+# payment-panzy
